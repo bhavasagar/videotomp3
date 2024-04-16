@@ -49,12 +49,21 @@ def validate():
         decoded = jwt.decode(
             encoded_jwt, os.environ.get("secret"), algorithm=["HS256"]
         )
-    except:
+    except Exception as e:
+        print(e)
         return "Not authorized", 400
     
     return decoded, 200
     
 def createJWT(username, secret, admin):
+    """
+    Creates JWT token from the username
+
+    :param username: string email of the user
+    :param secret: string used to pack the JWT
+    :param admin: bool True/False based on user access level
+    :return: JWT token
+    """
     return jwt.encode(
         {
             "username": username,
@@ -65,6 +74,7 @@ def createJWT(username, secret, admin):
         secret=secret,
         algorithm="HS256"
     )
-    
+
+#  This will run the app
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
