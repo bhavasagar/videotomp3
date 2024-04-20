@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, os
 
 def login(request):
     auth = request.authorization
@@ -11,5 +11,4 @@ def login(request):
     )
     if resp.status_code == 200:
         return resp.txt, None
-
     return None, (resp.txt, resp.status_code)

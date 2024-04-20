@@ -11,7 +11,7 @@ app.config["MONGO_URI"] = "mongodb://host.minikube.internal:27017/videos"
 mongo = PyMongo(app)
 fs = gridfs.GridFS(mongo.db)
 
-connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq")
+connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
 channel = connection.channel()
 
 @app.post("/v1/login")
