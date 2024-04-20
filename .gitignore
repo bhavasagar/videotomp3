@@ -1,5 +1,4 @@
 .idea
-venv
 *.pyc
-*-venv/
+*venv/
 gateway/venv/*
