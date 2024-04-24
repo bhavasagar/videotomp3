@@ -17,7 +17,7 @@ def start(body, fs_videos, fs_mp3s, ch):
     audio_file_path = tempfile.gettempdir() + f"/{message['video_fid']}.mp3"
     audio.write_audiofile(audio_file_path)
 
-    with open(audio_file_path) as af:
+    with open(audio_file_path, 'rb') as af:
         data = af.read()
         audio_fid = fs_mp3s.put(data)
 
