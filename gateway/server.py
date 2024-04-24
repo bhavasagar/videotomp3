@@ -16,9 +16,11 @@ channel = connection.channel()
 
 @app.post("/v1/login")
 def login():
+    print("STARTING LOGIN")
     token, err = access.login(request)
+    print(token, err, "Logging data")
     if err:
-        return err, 400
+        return err
     return token, 200
 
 @app.post("/v1/upload")
@@ -34,7 +36,7 @@ def upload():
         return "Please add file or upload one by one", 400
 
     file = request.files['file']
-    if not (file.filename and file.filename.endsWith('.mp4')):
+    if not (file.filename and file.filename.endswith('.mp4')):
         return "Please upload and mp4 formatted file", 400
 
     err = utils.upload(claims, file, fs, channel)

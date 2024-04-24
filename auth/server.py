@@ -12,22 +12,25 @@ app.config["MYSQL_HOST"] = os.environ.get("MYSQL_HOST")
 app.config["MYSQL_USER"] = os.environ.get("MYSQL_USER")
 app.config["MYSQL_PASSWORD"] = os.environ.get("MYSQL_PASSWORD")
 app.config["MYSQL_DB"] = os.environ.get("MYSQL_DB")
-app.config["MYSQL_PORT"] = os.environ.get("MYSQL_PORT")
+app.config["MYSQL_PORT"] = int(os.environ.get("MYSQL_PORT"))
 
 
 @app.route("/login", methods=["POST"])
 def login():
+    print("STARTING")
+    print(request.authorization, "AUTH")
     auth = request.authorization
     if not auth:
         return "Credentials not found", 400
     
     cursor = mysql.connection.cursor()
-    ret = cursor.execute(f"SELECT * FROM User WHERE email={auth.username}")
+    ret = cursor.execute(f"SELECT * FROM User WHERE email='{auth.username}'")
+    print(ret, "RET")
     if ret > 0:
         user_row = cursor.fetchone()
-        email = user_row[0]
-        password = user_row[1]
-
+        email = user_row[1]
+        password = user_row[2]
+        print(email, password, "from db")
         if email != auth.username or password != auth.password:
             return "Invalid credentials", 401
         
@@ -47,7 +50,7 @@ def validate():
     token = encoded_jwt.split(" ")[1]
     try:
         decoded = jwt.decode(
-            encoded_jwt, os.environ.get("secret"), algorithm=["HS256"]
+            token, os.environ.get("JWT_SECRET"), algorithms=["HS256"]
         )
     except Exception as e:
         print(e)
@@ -71,7 +74,7 @@ def createJWT(username, secret, admin):
             "iat": datetime.datetime.now(tz=datetime.timezone.utc),
             "admin": admin
         },
-        secret=secret,
+        secret,
         algorithm="HS256"
     )
 
