@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifcation
+  labels:
+    app: notifcation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notifcation
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: notifcation
+    spec:
+      containers:
+        - name: notifcation
+          image: bhavasagar09/notifcation
+          envFrom:
+            - configMapRef:
+                name: notifcation-configmap
+            - secretRef:
+                name: notifcation-secret
