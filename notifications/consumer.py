@@ -1,4 +1,4 @@
-from notifications.send import sender
+from send import sender
 import pika, os, sys
 
 

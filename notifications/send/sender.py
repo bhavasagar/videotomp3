@@ -28,7 +28,6 @@ def notify(body):
     message["Subject"] = subject
 
     message.attach(MIMEText(html, "html"))
-
     session = smtplib.SMTP("live.smtp.mailtrap.io", 587)
     session.starttls()
     session.login(sender_login, sender_password)

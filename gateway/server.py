@@ -50,7 +50,7 @@ def download():
     if not request.args.get("fid"):
         return "File id is required"
     
-    fid = base64.urlsafe_b64decode(request.args.get("fid"))
+    fid = request.args.get("fid")
     try:
         out = mp3s_fs.get(ObjectId(fid))
         return send_file(out, download_name=f"{fid}.mp3")
