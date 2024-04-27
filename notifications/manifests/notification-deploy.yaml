@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notifcation
+  name: notifications
   labels:
-    app: notifcation
+    app: notifications
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: notifcation
+      app: notifications
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -16,13 +16,13 @@ spec:
   template:
     metadata:
       labels:
-        app: notifcation
+        app: notifications
     spec:
       containers:
-        - name: notifcation
-          image: bhavasagar09/notifcation
+        - name: notifications
+          image: bhavasagar09/notifications
           envFrom:
             - configMapRef:
-                name: notifcation-configmap
+                name: notifications-configmap
             - secretRef:
-                name: notifcation-secret
+                name: notifications-secret

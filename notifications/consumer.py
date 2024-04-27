@@ -1,4 +1,4 @@
-import email
+from notifications.send import sender
 import pika, os, sys
 
 
@@ -9,7 +9,7 @@ def main():
     channel = connection.channel()
 
     def callback(ch, method, properties, body):
-        err = email.notify(body)
+        err = sender.notify(body)
         if err:
             ch.basic_nack(delivery_tag=method.delivery_tag)
 
